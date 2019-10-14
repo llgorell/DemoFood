@@ -1,17 +1,17 @@
 package com.example.demofoodshop.Item;
 
 public class Item {
-    String id;
+    int id;
     String name;
     String description;
     String price;
     String thumbnail;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

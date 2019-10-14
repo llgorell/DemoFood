@@ -1,6 +1,7 @@
 package com.example.demofoodshop.Remote;
 
 import com.example.demofoodshop.Item.Item;
+import com.example.demofoodshop.Models.Food;
 
 import java.util.List;
 

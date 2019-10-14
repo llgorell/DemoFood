@@ -8,6 +8,6 @@ import retrofit2.Retrofit;
 public class Common {
 
     public static ItemRequest getItemRequest(){
-        return RetrofitClient.getClient("\"https://api.androidhive.info/\"").create(ItemRequest.class);
+        return RetrofitClient.getClient("https://api.androidhive.info/").create(ItemRequest.class);
     }
 }

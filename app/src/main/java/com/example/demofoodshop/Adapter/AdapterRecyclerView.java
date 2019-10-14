@@ -1,6 +1,7 @@
 package com.example.demofoodshop.Adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,7 +29,9 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list,parent,false);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -61,6 +64,8 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
             description = itemView.findViewById(R.id.description);
             price = itemView.findViewById(R.id.price);
             imageview = itemView.findViewById(R.id.thumbnail);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
         }
     }
     public void removeItem(int postion){
