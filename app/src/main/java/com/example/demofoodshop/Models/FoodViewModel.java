@@ -28,6 +28,8 @@ public class FoodViewModel extends AndroidViewModel {
     public void insertFood(Food food) {
         repository.insertFood(food);
     }
+    public void  deleteFood(Food food){repository.deleteFood(food);}
+    public void updateFood(Food food){repository.updateFood(food);}
 
 
     public LiveData<List<Food>> getAllFood() {

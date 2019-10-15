@@ -28,6 +28,7 @@ public class FoodRepository {
     public void updateFood(Food food){
         new UpdateFood(foodDao).execute(food);
     }
+    public void deleteFood(Food food){new DeleteFood(foodDao).execute(food);}
     public LiveData<List<Food>>getAllFood(){
         return allFood;
     }
@@ -56,6 +57,19 @@ public class FoodRepository {
         @Override
         protected Void doInBackground(Food... foods) {
             foodDao.updateFood(foods[0]);
+            return null;
+        }
+    }
+    public class DeleteFood extends AsyncTask<Food,Void,Void>{
+        private FoodDao foodDao;
+
+        public DeleteFood(FoodDao foodDao) {
+            this.foodDao = foodDao;
+        }
+
+        @Override
+        protected Void doInBackground(Food... foods) {
+            foodDao.deleteFood(foods[0]);
             return null;
         }
     }

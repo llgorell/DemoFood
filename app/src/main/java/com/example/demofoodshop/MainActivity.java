@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.example.demofoodshop.Adapter.AdapterRecyclerView;
 import com.example.demofoodshop.Helper.Common;
+import com.example.demofoodshop.Helper.ItemTouchHelperonline;
 import com.example.demofoodshop.Helper.RecyclerItemTouchHelperListener;
 import com.example.demofoodshop.Item.Item;
 import com.example.demofoodshop.Models.DataBaseFood;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback=
-                new com.example.demofoodshop.Helper.ItemTouchHelper(0,ItemTouchHelper.LEFT,this);
+                new ItemTouchHelperonline(0,ItemTouchHelper.LEFT,this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
             viewModel = ViewModelProviders.of(this).get(FoodViewModel.class);

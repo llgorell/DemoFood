@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.demofoodshop.Adapter.AdapterRecyclerView;
 
-public class ItemTouchHelper extends androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperonline extends androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
-    public ItemTouchHelper(int dragDirs, int swipeDirs,RecyclerItemTouchHelperListener listener) {
+    public ItemTouchHelperonline(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }
