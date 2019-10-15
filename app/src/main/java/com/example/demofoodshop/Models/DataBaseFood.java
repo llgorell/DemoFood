@@ -6,7 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 
-@Database(entities = {Food.class},version = 2,exportSchema = false)
+@Database(entities = {Food.class},version = 3,exportSchema = false)
 public abstract class DataBaseFood extends RoomDatabase {
 
     public static final String NAME_DATABASE = "food_database.db";

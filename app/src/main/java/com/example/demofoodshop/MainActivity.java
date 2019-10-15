@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
 
     private String name;
     private String desc;
-    private String price;
+    private int price;
     private String image_db;
     ItemRequest mservice;
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         root = findViewById(R.id.rootlayout);
 
 
-        mservice = Common.getItemRequest();
+        mservice = Common.getItemRequest();//create obj for getRequest api
         list = new ArrayList<>();
 
 
@@ -73,14 +73,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
                 new ItemTouchHelperonline(0,ItemTouchHelper.LEFT,this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
+        //observ on room database
             viewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
             viewModel.getAllFood().observe(this, new Observer<List<Food>>() {
                 @Override
                 public void onChanged(List<Food> foodList) {
                     if (foodList == null || foodList.isEmpty()){
-                        addItemToCart();
+                        addItemToCart();//get data from api with retrofit and insert data
                     }else {
-                        addupdatecart();
+                        addupdatecart();////get data from api with retrofit and update data
                     }
 
                 }

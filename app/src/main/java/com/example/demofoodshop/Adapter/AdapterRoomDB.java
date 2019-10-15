@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.demofoodshop.Models.Food;
-import com.example.demofoodshop.Models.FoodDao;
 import com.example.demofoodshop.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+//adapter for recyclerView in offline mode
 public class AdapterRoomDB extends RecyclerView.Adapter<AdapterRoomDB.MyHolder> {
     Context context;
     List<Food>foodList;
-    public FoodDao foodDao;
+
 
     public AdapterRoomDB(Context context, List<Food> foodList) {
         this.context = context;
@@ -43,7 +43,7 @@ public class AdapterRoomDB extends RecyclerView.Adapter<AdapterRoomDB.MyHolder> 
         Food food =foodList.get(position);
         holder.name.setText(food.getName());
         holder.description.setText(food.getDescription());
-        holder.price.setText(food.getPrice());
+        holder.price.setText(Integer.toString(food.getPrice()));
         Picasso.with(context)
                 .load(food.getThumbnail())
                 .into(holder.thumbnail);

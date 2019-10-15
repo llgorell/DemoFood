@@ -8,20 +8,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-
-import com.example.demofoodshop.Adapter.AdapterRecyclerView;
 import com.example.demofoodshop.Adapter.AdapterRoomDB;
 import com.example.demofoodshop.Helper.ItemTouchHelperOffline;
-import com.example.demofoodshop.Helper.ItemTouchHelperonline;
 import com.example.demofoodshop.Helper.RecyclerItemTouchHelperListener;
 import com.example.demofoodshop.Models.Food;
 import com.example.demofoodshop.Models.FoodViewModel;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +42,13 @@ public class Offline_mode extends AppCompatActivity implements RecyclerItemTouch
         recyclerView.setAdapter(adapter);
 
 
+        //create obj from custom itemtouchHelper
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback =
                 new ItemTouchHelperOffline(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
+        //observer Viewmodel for update Recyclerview in offline mode
         viewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
         viewModel.getAllFood().observe(this, new Observer<List<Food>>() {
             @Override
@@ -65,7 +62,7 @@ public class Offline_mode extends AppCompatActivity implements RecyclerItemTouch
         });
     }
 
-    @Override
+    @Override//swip recycler view and delete and restore func
     public void onswiped(RecyclerView.ViewHolder viewHolder, int direction, int postion) {
 
         if (viewHolder instanceof AdapterRoomDB.MyHolder) {

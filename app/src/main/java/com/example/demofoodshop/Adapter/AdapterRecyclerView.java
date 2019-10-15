@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.MyViewHolder> {
     Context context;
     List<Item> list;
@@ -40,7 +41,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         Item item = list.get(position);
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
-        holder.price.setText(item.getPrice());
+        holder.price.setText(Integer.toString(item.getPrice()));
         Picasso.with(context)
                 .load(item.getThumbnail())
                 .into(holder.imageview);

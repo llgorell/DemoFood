@@ -17,14 +17,14 @@ public class Food {
     String description;
 
     @ColumnInfo(name = "price")
-    String price;
+    int price;
 
     @ColumnInfo(name = "thumbnail")
     String thumbnail;
 
 
 
-    public Food(String name, String description, String price,String thumbnail) {
+    public Food(String name, String description, int price,String thumbnail) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -55,7 +55,7 @@ public class Food {
         return description;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
