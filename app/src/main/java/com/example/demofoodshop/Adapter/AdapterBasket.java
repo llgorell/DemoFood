@@ -9,56 +9,49 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.demofoodshop.Models.Basket;
 import com.example.demofoodshop.Models.DataBaseBasket;
-import com.example.demofoodshop.Models.Food;
 import com.example.demofoodshop.R;
 import com.squareup.picasso.Picasso;
+import com.steelkiwi.library.view.BadgeHolderLayout;
+
 import java.util.List;
 
-
-public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.MyViewHolder> {
+public class AdapterBasket extends RecyclerView.Adapter<AdapterBasket.MyViewHolder> {
     Context context;
-    List<Food> list ;
-    List<Basket> listbasket;
+    List<Basket> list;
 
-    public AdapterRecyclerView(Context context, List<Food> list) {
+
+    public AdapterBasket(Context context, List<Basket> list) {
         this.context = context;
         this.list = list;
+
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_basket, parent, false);
+
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-        final DataBaseBasket dbbasket = DataBaseBasket.getInstance(context);
-
-        Food item = list.get(position);
-        holder.name.setText(item.getName());
-        holder.description.setText(item.getDescription());
-        holder.price.setText(Integer.toString(item.getPrice()));
+        final Basket itemViewModel = list.get(position);
+        holder.name.setText(itemViewModel.getName());
+        holder.description.setText(itemViewModel.getDescription());
+        holder.price.setText(Integer.toString(itemViewModel.getPrice()));
         Picasso.with(context)
-                .load(item.getThumbnail())
+                .load(itemViewModel.getThumbnail())
                 .into(holder.imageview);
-        holder.counter.setVisibility(View.GONE);
-
-
-
-
-
-
-
-
-
+        holder.counter.setText(Integer.toString(itemViewModel.getCounter()));
 
 
     }
@@ -69,28 +62,33 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
         final DataBaseBasket dbbasket = DataBaseBasket.getInstance(context);
 
         private TextView name;
         private TextView price;
         private TextView description;
         private ImageView imageview;
-        public RelativeLayout viewBackground,viewForeground;
-        Button btn_add;
-        Button btn_remove;
-        TextView counter;
+        public Button btn_add;
+        public Button btn_remove;
+        public RelativeLayout viewBackground, viewForeground;
+        final BadgeHolderLayout badge;
+        public TextView counter;
 
         public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
+
+            counter = itemView.findViewById(R.id.counter);
             name = itemView.findViewById(R.id.name);
             description = itemView.findViewById(R.id.description);
             price = itemView.findViewById(R.id.price);
             imageview = itemView.findViewById(R.id.thumbnail);
-            viewBackground = itemView.findViewById(R.id.view_background);
-            viewForeground = itemView.findViewById(R.id.view_foreground);
             btn_add = itemView.findViewById(R.id.btn_add_shop);
             btn_remove = itemView.findViewById(R.id.btn_decrement);
-            counter = itemView.findViewById(R.id.counter);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
+            badge = itemView.findViewById(R.id.badge_counter);
+
 
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +105,8 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
                             dbbasket.basketDao().updateBasket(basket);
 
                         }
+                        list = dbbasket.basketDao().getallBasketoff();
+                        setData(list);
 
                     }
                 }
@@ -126,23 +126,36 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
                             foundRecord.Counter --;
                             dbbasket.basketDao().updateBasket(foundRecord);
                         }
+                        list = dbbasket.basketDao().getallBasketoff();
+                        setData(list);
                     }
                 }
             });
+
+
+
         }
+
+
     }
-    public void removeItem(int postion){
+
+    public void removeItem(int postion) {
         list.remove(postion);
         notifyItemRemoved(postion);
     }
-    public void restoreItem(Food item, int postion){
-        list.add(postion,item);
+
+    public void restoreItem(Basket itemViewModel, int postion) {
+        list.add(postion, itemViewModel);
         notifyItemInserted(postion);
 
     }
 
-    public void setData(List<Food> listFood){
-        this.list=listFood;
+
+
+    public void setData(List<Basket> baskets){
+        this.list=baskets;
         notifyDataSetChanged();
     }
+
+
 }

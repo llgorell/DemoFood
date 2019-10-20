@@ -16,6 +16,7 @@ public class FoodViewModel extends AndroidViewModel {
 
     private FoodRepository repository;
     LiveData<List<Food>> allFood;
+    LiveData<List<Basket>> allBasket;
 
 
 
@@ -23,6 +24,7 @@ public class FoodViewModel extends AndroidViewModel {
         super(application);
         repository = new FoodRepository(application);
         allFood = repository.getAllFood();
+        allBasket = repository.getAllBasket();
     }
 
     public void insertFood(Food food) {
@@ -35,4 +37,5 @@ public class FoodViewModel extends AndroidViewModel {
     public LiveData<List<Food>> getAllFood() {
         return allFood;
     }
+    public LiveData<List<Basket>> getAllBasket(){return allBasket;}
 }

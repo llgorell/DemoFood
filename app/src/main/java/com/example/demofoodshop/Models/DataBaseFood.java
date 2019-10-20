@@ -6,7 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 
-@Database(entities = {Food.class},version = 3,exportSchema = false)
+@Database(entities = {Food.class},version = 4,exportSchema = false)
 public abstract class DataBaseFood extends RoomDatabase {
 
     public static final String NAME_DATABASE = "food_database.db";
@@ -20,6 +20,7 @@ public abstract class DataBaseFood extends RoomDatabase {
                     , DataBaseFood.class, NAME_DATABASE)
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallBack)
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;

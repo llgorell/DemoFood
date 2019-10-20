@@ -32,4 +32,10 @@ public interface FoodDao {
     LiveData<List<Food>> getallFood();
 
 
+
+
+    @Query("SELECT * FROM table_food WHERE id =:id")
+    Food selectbyId(int id);
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.demofoodshop;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.demofoodshop.Adapter.AdapterRecyclerView;
 import com.example.demofoodshop.Helper.Common;
@@ -26,6 +28,7 @@ import com.example.demofoodshop.Models.Food;
 import com.example.demofoodshop.Models.FoodViewModel;
 import com.example.demofoodshop.Remote.ItemRequest;
 import com.google.android.material.snackbar.Snackbar;
+import com.steelkiwi.library.view.BadgeHolderLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +42,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     private final String URL_API = "https://api.androidhive.info/json/menu.json";
     private RecyclerView recyclerView;
     private List<Item> list;
+    private List<Food> listFood;
     private AdapterRecyclerView adapter;
     private ConstraintLayout root;
     FoodViewModel viewModel;
-
+    BadgeHolderLayout badge;
+    private int counter =0;
     private String name;
     private String desc;
     private int price;
@@ -56,13 +61,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerview);
         root = findViewById(R.id.rootlayout);
+        badge = findViewById(R.id.badge_counter);
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Demo SHop");
 
 
         mservice = Common.getItemRequest();//create obj for getRequest api
         list = new ArrayList<>();
+        listFood = new ArrayList<>();
 
 
-        adapter = new AdapterRecyclerView(this,list);
+        adapter = new AdapterRecyclerView(this,listFood);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -80,10 +90,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
                 public void onChanged(List<Food> foodList) {
                     if (foodList == null || foodList.isEmpty()){
                         addItemToCart();//get data from api with retrofit and insert data
+                        adapter.setData(foodList);
+
                     }else {
                         addupdatecart();////get data from api with retrofit and update data
+                        adapter.setData(foodList);
+
                     }
 
+                }
+            });
+
+            badge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,BasketActivity.class);
+                    startActivity(intent);
                 }
             });
 
@@ -95,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         mservice.getItemList(URL_API).enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, final Response<List<Item>> response) {
-                list.clear();
-                list.addAll(response.body());
-                adapter.notifyDataSetChanged();
+
 
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -127,9 +147,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         mservice.getItemList(URL_API).enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, final Response<List<Item>> response) {
-                list.clear();
-                list.addAll(response.body());
-                adapter.notifyDataSetChanged();
+
 
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -141,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
                             image_db = response.body().get(i).getThumbnail();
                             Food food = new Food(name, desc, price, image_db);
                             DataBaseFood.getInstance(MainActivity.this).foodDao().updateFood(food);
-
                         }
                     }
                 });
@@ -163,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
 
             String name = list.get(viewHolder.getAdapterPosition()).getName();
 
-            final Item deletedItem = list.get(viewHolder.getAdapterPosition());
+            final Food deletedItem = listFood.get(viewHolder.getAdapterPosition());
             final int deleteIndex = viewHolder.getAdapterPosition();
 
             adapter.removeItem(deleteIndex);
@@ -182,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     }
 
     @Override
-    public boolean onCreateOptionsMenu( Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = new MenuInflater(this);
         inflater.inflate(R.menu.menu,menu);
         return true;
@@ -190,16 +207,21 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
 
-        switch (item.getItemId()) {
             case R.id.offline_mode:
-                Intent intent = new Intent(MainActivity.this, Offline_mode.class);
+                Intent intent = new Intent(MainActivity.this,Offline_mode.class);
                 startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
+            case R.id.setting_menu:
+                Toast.makeText(this, "Setting dont created yet", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.exit_menu:
+                finish();
         }
+        return true;
     }
-
-
 }
+
+
+

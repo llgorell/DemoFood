@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="offline Mode"
+    <item android:title="@string/offline_mode"
         android:id="@+id/offline_mode"
-        ></item>
+        />
+    <item android:title="@string/setting_name"
+        android:id="@+id/setting_menu"
+        />
+    <item android:title="@string/exit_name"
+        android:id="@+id/exit_menu"
+        />
 
 
 </menu>

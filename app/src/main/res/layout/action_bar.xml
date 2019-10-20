@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/customToolbarStyle"
+    app:popupTheme="@style/customPopupStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+       <com.steelkiwi.library.view.BadgeHolderLayout
+           android:foregroundGravity="bottom"
+           android:id="@+id/badge_counter"
+           android:layout_width="56dp"
+           android:layout_height="56dp"
+           app:bhl_default_badge_background="@color/colorAccent"
+           app:bhl_badge_radius="48dp"
+           app:bhl_text_size="8sp"
+
+           >
+           <ImageView
+               android:id="@+id/shop_appbar"
+               android:padding="8dp"
+               android:layout_gravity="end"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:srcCompat="@drawable/ic_add_shopping_cart_black_24dp"
+               />
+       </com.steelkiwi.library.view.BadgeHolderLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
